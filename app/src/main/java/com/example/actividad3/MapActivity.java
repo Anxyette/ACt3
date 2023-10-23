@@ -3,12 +3,15 @@ package com.example.actividad3;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.MediaController;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -18,7 +21,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener{
-    Double latitud, longitud;
     GoogleMap mMap;
     String[] items = {"Arica","Iquique","Antofagasta","La Serena","Viña del Mar","Santiago","Talca","Concepción","Los Angeles","Temuco","Valdivia","Osorno","Puerto Montt"};
     AutoCompleteTextView autoCompleteTxt;
@@ -30,6 +32,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
+        //video
+        VideoView videoST = findViewById(R.id.videoView);
+        String source = "android.resource://"+getPackageName()+"/"+R.raw.videost;
+        Uri uri = Uri.parse(source);
+        videoST.setVideoURI(uri);
+
+        MediaController mediaController = new MediaController(this);
+        videoST.setMediaController(mediaController);
+        mediaController.setAnchorView(videoST);
+        videoST.start();
+
+        //mapa
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.maps);
         mapFragment.getMapAsync(this);
 
@@ -124,7 +138,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapClick(@NonNull LatLng latLng){
 
     }
-
     @Override
     public void onMapLongClick(@NonNull LatLng latLng){
 
